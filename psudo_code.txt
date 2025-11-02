@@ -1,0 +1,13 @@
+print playlist: <- playlist
+    return -> print the playlist
+
+create song: <- name, artist, duration, genre
+    create song with given parameters
+    return ->the created song
+main:
+    songs = liked songs dictionary
+    amount = the number of songs the user want to add
+    for i in range (amount):
+        song = create song
+        add song to songs
+    print the updated playlist.
