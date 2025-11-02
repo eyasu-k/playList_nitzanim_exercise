@@ -57,7 +57,7 @@ my_likeed_songs = {
 liked_songs = liked_songs | my_likeed_songs
 
 
-def delete_song(playlist: dict)-> None:
+def delete_song(playlist: dict)-> None: #what if Mia deletes a song twice? she can't with this function :D.
     song = input("Enter the name of the song to check: ")
     print("The song exists:", song in playlist)
     if song not in playlist:
@@ -65,6 +65,19 @@ def delete_song(playlist: dict)-> None:
     if input("Enter anything to delete the song, enter space or nothing to not delete it: ").strip():
         playlist.pop(song)
         print("song removed")
+
+def remove_artist(playlist: dict[dict])-> None:#what if mia wants to remove songs of artist that doesn't exist? she can't, my code won't let her!
+    artist = input("Enter the name of the artist to remove: ")
+    songs_to_remove = [key for key in playlist if playlist[key]["artist"] == artist]
+    if not songs_to_remove:
+        print("Artist not found.")
+    else:
+        for song in songs_to_remove:
+            print(f"Removed '{song}' by {playlist[song]['artist']}")
+            playlist.pop(song)
+
+
+
 
 
 
