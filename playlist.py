@@ -36,8 +36,7 @@ liked_songs = {
     }
 }
 
-def exists(playlist: dict, song_name: str)-> bool:
-    return song_name in playlist.keys()
+
 
 def main():
     pass
