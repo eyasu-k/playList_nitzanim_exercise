@@ -84,7 +84,10 @@ def filter_israeli_songs(playlist: dict, max_len: tuple = (3, 30))-> dict:
             filtered_songs[song] = playlist[song]
     return filtered_songs
 
-
+def print_playlist(playlist: dict)-> None:
+    for song in playlist:
+        artist, duration, genre = playlist[song].values()
+        print(f"-{song}\n\t-made by {artist}\n\t-genre: {genre}")
 
 
 
