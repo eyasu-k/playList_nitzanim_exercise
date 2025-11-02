@@ -57,5 +57,16 @@ my_likeed_songs = {
 liked_songs = liked_songs | my_likeed_songs
 
 
+def delete_song(playlist: dict)-> None:
+    song = input("Enter the name of the song to check: ")
+    print("The song exists:", song in playlist)
+    if song not in playlist:
+        return
+    if input("Enter anything to delete the song, enter space or nothing to not delete it: ").strip():
+        playlist.pop(song)
+        print("song removed")
+
+
+
 def main():
     pass
