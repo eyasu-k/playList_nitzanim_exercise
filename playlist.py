@@ -36,6 +36,25 @@ liked_songs = {
     }
 }
 
+my_likeed_songs = {
+    "Kontnuum": {
+        "artist": "SennaRin",
+        "duration": (3, 11),
+        "genre": "Unknown"
+    },
+    "Wahran": {
+        "artist": "RANDALL",
+        "duration": (3, 52),
+        "genre": "instrumental"
+    },
+    "New Type of Hero": {
+        "artist": "Chatterbox",
+        "duration": (3, 16),
+        "genre": "pop"
+    }
+}
+
+liked_songs = liked_songs | my_likeed_songs
 
 
 def main():
