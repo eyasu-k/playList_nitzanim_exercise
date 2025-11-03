@@ -56,6 +56,8 @@ my_likeed_songs = {
 
 liked_songs = liked_songs | my_likeed_songs
 
+def time_sum(time: tuple[int, int])-> int:
+    return time[0]*60+time[1]
 
 def delete_song(playlist: dict)-> None: #what if Mia deletes a song twice? she can't with this function :D.
     song = input("Enter the name of the song to check: ")
@@ -77,7 +79,6 @@ def remove_artist(playlist: dict[dict])-> None:#what if mia wants to remove song
             playlist.pop(song)
 
 def filter_israeli_songs(playlist: dict, max_len: tuple = (3, 30))-> dict:
-    time_sum = lambda x: x[0]*60 + x[1] #returns the first index *60 + the second index. -> convert a  tuple containing a minute and a second into seconds. example: (3, 30) will be 240 (seconds)
     filtered_songs = {}
     for song in playlist:
         if playlist[song]["genre"].lower() == 'israeli' and time_sum(playlist[song]["duration"]) <= time_sum(max_len) :
