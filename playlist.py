@@ -128,7 +128,7 @@ def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None, progress_
             total_seconds_in_song = time_sum(playlist[song]['duration'])
             progress_bar = generate_progress_bar(iterations=total_seconds_in_song, bar_size=progress_bar_size, char='−')
             for progress in range(total_seconds_in_song):
-                print(progress_bar[progress], end='')
+                print(progress_bar[progress], end='', flush=True)
                 time.sleep(1/speed)
                 if sleep_timer:
                     sleep_timer_seconds -= 1
@@ -147,15 +147,50 @@ def clean_input(msg: str, error_msg: str, checker_function)-> str:
         print(error_msg)
 
 def menu()-> list[str]:
-    choices = ["Show playlist", "Add a song", "Remove song", "Remove every song made by a given artist","Delete every song except Israeli songs shorter than 3:30 minutes", "Exit"]
+    choices = ["Show playlist", "Add a song", "Remove song", "Remove every song made by a given artist","Delete every song except Israeli songs shorter than 3:30 minutes", "Play", "Exit"]
     print("-"*10+"Liked Songs Playlist Player"+"-"*10)
     for index, choice in enumerate(choices):
         print(index+1, choice, sep='. ')
     return choices
 
 def main():
-    choices = menu() #prints the menu and stores the menu choices inside choices
-    choice = int(clean_input("Chose the number of the action: ", "Invalid choice.", checker_function=lambda x: x.isdigit() and 1 <= int(x)<=len(choices)))
+    main_playlist = liked_songs
+    while True:
+        choices = menu() #prints the menu and stores the menu choices inside choices
+        show_playlist, add_song, remove_song, remove_song_by_artist, israeli_songs_only,play,  _exit = [i+1 for i in range(len(choices))]
+        choice = int(clean_input("Chose the number of the action: ", "Invalid choice.", checker_function=lambda x: x.isdigit() and 1 <= int(x)<=len(choices)))
+        if choice == _exit:
+            print("Exiting...")
+            break
+        if choice == show_playlist:
+            print()
+            print_playlist(main_playlist)
+            print()
+        elif choice == add_song:
+            name = clean_input("Enter the name of the song: ", "song already in playlist", checker_function=lambda x: x not in main_playlist)
+            artist = clean_input("Enter the name of the artist: ", "You need to enter something", checker_function=lambda x: bool(x))
+            duration = clean_input("enter minutes and seconds in this format -> mm:ss", "invalid input", checker_function=lambda x: len(x.split(':')) == 2 and x.split(':')[0].isdigit() and x.split(':')[1].isdigit())
+            duration = duration.split(':')
+            duration = (int(duration[0]), int(duration[1]))
+            genre = clean_input("Enter the genre", "invalid input", checker_function=lambda x: bool(x))
+            new_song = create_song(name, artist, duration, genre)
+            main_playlist = main_playlist | new_song
+        elif choice == remove_song:
+            delete_song(main_playlist)
+        elif choice == remove_song_by_artist:
+            remove_artist(main_playlist)
+        elif choice == israeli_songs_only:
+            main_playlist = filter_israeli_songs(main_playlist)
+        elif choice == play:
+            sleep_timer = None
+            if input("Do you want a sleep timer? enter anything for a yes, space or nothing for a no").strip():
+                sleep_timer = clean_input("enter minutes and seconds in this format -> mm:ss", "invalid input",checker_function=lambda x: len(x.split(':')) == 2 and x.split(':')[0].isdigit() and x.split(':')[1].isdigit())
+                sleep_timer = sleep_timer.split(':')
+                sleep_timer = (int(sleep_timer[0]), int(sleep_timer[1]))
+            play_playlist(main_playlist, sleep_timer)
+        else:
+            print("HOW DID YOU GET HERE???!")
+
 
 if __name__ == '__main__':
     main()
