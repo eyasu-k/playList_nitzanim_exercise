@@ -1,3 +1,4 @@
+import time
 liked_songs = {
     "Shake It Off": {
         "artist": "Taylor Swift",
@@ -56,8 +57,8 @@ my_likeed_songs = {
 
 liked_songs = liked_songs | my_likeed_songs
 
-def time_sum(time: tuple[int, int])-> int:
-    return time[0]*60+time[1]
+def time_sum(minutes_and_seconds: tuple)-> int:
+    return minutes_and_seconds[0]*60+minutes_and_seconds[1]
 
 def delete_song(playlist: dict)-> None: #what if Mia deletes a song twice? she can't with this function :D.
     song = input("Enter the name of the song to check: ")
@@ -92,6 +93,26 @@ def print_playlist(playlist: dict)-> None:
 
 def create_song(name: str, artist: str, duration: tuple[int, int], genre: str)->dict:
     return {name: {"artist": artist, "duration": duration, "genre": genre}}
+
+def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None)-> None:
+    sleep_timer_seconds = None
+    if sleep_timer:
+        sleep_timer_seconds = time_sum(sleep_timer)
+    for song in playlist:
+        if not sleep_timer or sleep_timer_seconds > 0:
+            print(f"{song}: 0:0   ", end = '')
+            total_seconds_in_song = time_sum(playlist[song]['duration'])
+            for second in range(total_seconds_in_song):
+                print('−', end = '')
+                time.sleep(1)
+                if sleep_timer:
+                    sleep_timer_seconds -= 1
+                    if sleep_timer_seconds <= 0:
+                        break
+            print(f"   {playlist[song]['duration'][0]}:{playlist[song]['duration'][0]}")
+        else:
+            print("Sleep timer ended.")
+            break
 
 
 
