@@ -100,7 +100,7 @@ def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None)-> None:
         sleep_timer_seconds = time_sum(sleep_timer)
     for song in playlist:
         if not sleep_timer or sleep_timer_seconds > 0:
-            print(f"{song}: 0:0   ", end = '')
+            print(f"\"{song}\" by {playlist[song]['artist']}\n\t 0:0   ", end = '')
             total_seconds_in_song = time_sum(playlist[song]['duration'])
             for second in range(total_seconds_in_song):
                 print('−', end = '')
@@ -109,7 +109,7 @@ def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None)-> None:
                     sleep_timer_seconds -= 1
                     if sleep_timer_seconds <= 0:
                         break
-            print(f"   {playlist[song]['duration'][0]}:{playlist[song]['duration'][0]}")
+            print(f"   {playlist[song]['duration'][0]}:{playlist[song]['duration'][1]}")
         else:
             print("Sleep timer ended.")
             break
