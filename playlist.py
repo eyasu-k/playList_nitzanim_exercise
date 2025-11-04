@@ -109,7 +109,7 @@ def generate_progress_bar(iterations: int, bar_size: int, char: str = '\u2588', 
                 progress_bar.append(char*frequency)
         return progress_bar
 
-    empty_space = iterations // 5
+    empty_space = iterations // bar_size
     progress_bar = []
     remaining_chars = bar_size
     for i in range(iterations):
@@ -120,7 +120,7 @@ def generate_progress_bar(iterations: int, bar_size: int, char: str = '\u2588', 
             progress_bar.append(empty_char)
     return progress_bar[::-1]#im reversing it because the first value inside progress_bar is always 'char' and i wanted the last value to be always 'char' instead
 
-def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None)-> None:
+def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None, progress_bar_size: int = 100, speed: int = 1)-> None:
     sleep_timer_seconds = None
     if sleep_timer:
         sleep_timer_seconds = time_sum(sleep_timer)
@@ -128,9 +128,10 @@ def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None)-> None:
         if not sleep_timer or sleep_timer_seconds > 0:
             print(f"\"{song}\" by {playlist[song]['artist']}\n\t 0:0   ", end = '')
             total_seconds_in_song = time_sum(playlist[song]['duration'])
-            for second in range(total_seconds_in_song):
-                print('−', end = '')
-                time.sleep(1)
+            progress_bar = generate_progress_bar(iterations=total_seconds_in_song, bar_size=progress_bar_size, char='−')
+            for progress in range(total_seconds_in_song):
+                print(progress_bar[progress], end='')
+                time.sleep(1/speed)
                 if sleep_timer:
                     sleep_timer_seconds -= 1
                     if sleep_timer_seconds <= 0:
