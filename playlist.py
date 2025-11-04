@@ -141,6 +141,13 @@ def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None, progress_
             print("Sleep timer ended.")
             break
 
+def clean_input(msg: str, error_msg: str, checker_function)-> str:
+    while True:
+        new_input = input(msg)
+        if checker_function(new_input):
+            return new_input
+        print(error_msg)
+
 
 
 def main():
