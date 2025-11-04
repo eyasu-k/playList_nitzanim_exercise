@@ -37,7 +37,7 @@ liked_songs = {
     }
 }
 
-my_likeed_songs = {
+eyasu_liked_songs = {
     "Kontnuum": {
         "artist": "SennaRin",
         "duration": (3, 11),
@@ -54,8 +54,6 @@ my_likeed_songs = {
         "genre": "pop"
     }
 }
-
-liked_songs = liked_songs | my_likeed_songs
 
 def time_sum(minutes_and_seconds: tuple)-> int:
     return minutes_and_seconds[0]*60+minutes_and_seconds[1]
