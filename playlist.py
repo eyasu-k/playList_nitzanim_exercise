@@ -94,6 +94,32 @@ def print_playlist(playlist: dict)-> None:
 def create_song(name: str, artist: str, duration: tuple[int, int], genre: str)->dict:
     return {name: {"artist": artist, "duration": duration, "genre": genre}}
 
+def generate_progress_bar(iterations: int, bar_size: int, char: str = '\u2588', empty_char: str = '')-> list[str]:
+    if iterations == bar_size:
+        return [char]*iterations
+    if iterations < bar_size and iterations != 0:
+        frequency = bar_size // iterations #the minimum number of chars per progress
+        remaining_chars = bar_size % iterations
+        progress_bar = []
+        for i in range(iterations):
+            if remaining_chars > 0:
+                progress_bar.append(char*(frequency+1))#extra chars will be added to the first few bars if the bar_size cant be divided by the number of iterations evenly -> if bar_size = 10, iterations = 5 --> progress bar = ['[char][char]', '[char][char]', '[char][char]', '[char][char]', '[char][char]'], if bar_size = 5, iterations = 3 --> progress_bar = ['[char][char]', '[char][char]', '[char]']
+                remaining_chars -= 1
+            else:
+                progress_bar.append(char*frequency)
+        return progress_bar
+
+    empty_space = iterations // 5
+    progress_bar = []
+    remaining_chars = bar_size
+    for i in range(iterations):
+        if i%empty_space == 0 and remaining_chars > 0:#the first value inside progress_bar will be char because 0 can be divided by any number, meaning: reversing progress_bar would make the last value of the progress bar be char instead of empty string
+            progress_bar.append(char)
+            remaining_chars -= 1
+        else:
+            progress_bar.append(empty_char)
+    return progress_bar[::-1]#im reversing it because the first value inside progress_bar is always 'char' and i wanted the last value to be always 'char' instead
+
 def play_playlist(playlist: dict, sleep_timer: tuple[int, int] = None)-> None:
     sleep_timer_seconds = None
     if sleep_timer:
