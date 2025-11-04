@@ -147,11 +147,15 @@ def clean_input(msg: str, error_msg: str, checker_function)-> str:
         print(error_msg)
 
 def menu()-> list[str]:
-    choices = ["Show playlist", "Add a song", "Remove song", "Remove every song made by a given artist","Delete every song except Israeli songs shorter than 3:30 minutes"]
+    choices = ["Show playlist", "Add a song", "Remove song", "Remove every song made by a given artist","Delete every song except Israeli songs shorter than 3:30 minutes", "Exit"]
     print("-"*10+"Liked Songs Playlist Player"+"-"*10)
     for index, choice in enumerate(choices):
         print(index+1, choice, sep='. ')
     return choices
 
 def main():
-    pass
+    choices = menu() #prints the menu and stores the menu choices inside choices
+    choice = int(clean_input("Chose the number of the action: ", "Invalid choice.", checker_function=lambda x: x.isdigit() and 1 <= int(x)<=len(choices)))
+
+if __name__ == '__main__':
+    main()
