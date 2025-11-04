@@ -146,7 +146,12 @@ def clean_input(msg: str, error_msg: str, checker_function)-> str:
             return new_input
         print(error_msg)
 
-
+def print_menu()-> list[str]:
+    choices = ["Show playlist", "Add a song", "Remove song", "Remove every song made by a given artist","Delete every song except Israeli songs shorter than 3:30 minutes"]
+    print("-"*10+"Liked Songs Playlist Player"+"-"*10)
+    for index, choice in enumerate(choices):
+        print(index+1, choice, sep='. ')
+    return choices
 
 def main():
     pass
